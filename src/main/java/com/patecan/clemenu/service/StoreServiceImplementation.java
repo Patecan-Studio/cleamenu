@@ -78,9 +78,6 @@ public class StoreServiceImplementation implements StoreService {
         StoreSchema rs = mongoTemplate.findOne(query, StoreSchema.class);
         System.out.println(rs);
 
-
-
-
         Update update = new Update();
         update.set("items.$.price", updateFoodDto.price());
 
