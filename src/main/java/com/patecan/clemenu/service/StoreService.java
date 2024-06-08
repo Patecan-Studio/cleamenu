@@ -11,4 +11,5 @@ public interface StoreService
     public StoreDto registerStore(StoreDto store) throws Exception;
     public List<StoreDto> getRegisteredStores() throws Exception;
     public List<Food> updateFoodPrice(String storeId, String itemId, UpdateFoodDto updateFoodDto) throws Exception;
+    public List<Food> getMenuByStoreId(String storeId) throws Exception;
 }

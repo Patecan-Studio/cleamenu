@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,6 +89,18 @@ public class StoreServiceImplementation implements StoreService {
         } else{
             return null;
         }
+    }
+
+    @Override
+    public List<Food> getMenuByStoreId(String storeId) throws Exception {
+        Optional<StoreSchema> store = storeRepository.findById(storeId);
+        store.ifPresentOrElse(
+                s -> System.out.println("Store found: " + s),
+                () -> System.out.println("Store not found")
+        );
+
+        List<Food> menuItem = store.isPresent() ? store.get().getItems() : List.of();
+        return menuItem;
     }
 
 }

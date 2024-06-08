@@ -2,6 +2,7 @@ package com.patecan.clemenu.controller;
 
 import com.patecan.clemenu.model.DTO.StoreDto;
 import com.patecan.clemenu.model.DTO.UpdateFoodDto;
+import com.patecan.clemenu.model.DTO.response.FoodResponseDto;
 import com.patecan.clemenu.model.Food;
 import com.patecan.clemenu.model.schema.StoreSchema;
 import com.patecan.clemenu.service.StoreService;
@@ -40,6 +41,17 @@ public class StoreController
         List<Food> updatedFood = storeService.updateFoodPrice(storeId, itemId, updateFoodDto);
         if(updatedFood != null && !updatedFood.isEmpty()) {
             return new ResponseEntity<>(updatedFood, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("stores/{storeId}")
+    public ResponseEntity<List<FoodResponseDto>> getMenuByStoreId(@PathVariable String storeId) throws Exception {
+
+        List<Food> foods = storeService.getMenuByStoreId(storeId);
+        if(!foods.isEmpty()) {
+            List<FoodResponseDto> result = foods.stream().map(food -> new FoodResponseDto(food.getFoodId(), food.getName(), food.getPrice(), food.getVer())).toList();
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
